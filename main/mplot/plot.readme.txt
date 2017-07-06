@@ -1,0 +1,31 @@
+%--2016/04/23
+filename	functions
+
+figure1.m	Plot serological data at T1 and T2
+figure1_sim.m	--
+figure2.m	Plot disease and serological dynamics
+figure3.m	Plot sera histogram at T1 and T2 with uncertainty for each age groups
+
+
+vvvv--still working
+figure1c. Plot the distribution of antibody boosting
+figure2.  Plot disease and serological dynamics
+figure3a. Plot sera histogram at T1 and T2 with uncertainty for total population
+figure3a. Plot sera histogram at T1 and T2 with uncertainty for each age groups
+figure4.  Calculate Rt and plot it
+figure5.  Plot the attack rate among different age group
+figure5a. Plot seroconversion date using paired sera
+figureS2. Plot Posterior SAMPLES
+
+
+%--2015/06/12
+figure1a. Plot serological data at T1 and T2
+figure1b. Plot seroconversion
+figure1c. Plot the distribution of antibody boosting
+figure2.  Plot disease and serological dynamics
+figure3a. Plot sera histogram at T1 and T2 with uncertainty for total population
+figure3a. Plot sera histogram at T1 and T2 with uncertainty for each age groups
+figure4.  Calculate Rt and plot it
+figure5.  Plot the attack rate among different age group
+figure5a. Plot seroconversion date using paired sera
+figureS2. Plot Posterior SAMPLES

@@ -1,0 +1,32 @@
+A = PosteriorSamples.immune_alpha1;
+B = PosteriorSamples.immune_alpha2;
+corrcoef(A,B)
+
+A = PosteriorSamples.immune_alpha1;
+B = PosteriorSamples.immune_alpha3;
+corrcoef(A,B)
+
+A = PosteriorSamples.immune_alpha1;
+B = PosteriorSamples.immune_alpha4;
+corrcoef(A,B)
+
+A = PosteriorSamples.immune_alpha2;
+B = PosteriorSamples.immune_alpha3;
+corrcoef(A,B)
+
+A = PosteriorSamples.immune_alpha2;
+B = PosteriorSamples.immune_alpha4;
+corrcoef(A,B)
+
+A = PosteriorSamples.immune_alpha3;
+B = PosteriorSamples.immune_alpha4;
+corrcoef(A,B)
+
+
+
+%---
+
+X = 2:0.05:8;
+Y = normpdf(X, mu, sigma);
+Y1 = Y./10;
+[AX,H1,H2] = plotyy(X,Y1,X,Y, 'plot');

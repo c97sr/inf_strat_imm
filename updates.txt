@@ -1,0 +1,318 @@
+02072015
+Correct the bugs to generate table2. The previous code is wrong. So most of the table2 results are not correct.
+Because the index in for loop was wrong.
+
+23062015
+Change working project dir from
+% E:\working\Projects.IC\Projects\isl\mat\Misltr\isltr-1.4\out\mcmc\ph1n1\20150106
+to
+% E:\Documents\Github\serodynamics\isltr\main\mplot\figure3b
+
+add output log for figure2.
+
+10062015
+Change ODE simulation time from 1 (not zero) to end
+
+
+18042015
+table2.m
+lower bound and upper bound change from 0.05 to 0.025; 0.95 to 0.975
+
+02032015
+Fitting the initial titres
+
+15022015
+make initial_prev_Xu_uniform.m (called by make_ics_naive)
+initial_naive if make complete naive population.
+add age_arr into parameters object
+%%%%add the forth output of this function [yini age_arr S0_imm initS] = make_ics_naive
+create the function initial_prev_Xu_uniform. It will be called in main_MCMC
+
+23012015
+I should find a time to rewrite the document spec for the whole process.
+Then I make a clean version without redundant codes.
+
+16012015
+Add visualization tools.
+figure2_posterior to plot sera distribution.
+table2_goodnessfit to show p value using chi square test.
+
+01122014
+I create a priorpdf function to calculate the pdf with lb (lower bound) and ub. Not testing yet. For uniform, it doesn't need.
+E:\working\Projects.IC\Projects\isl\mat\Misltr\isltr-1.3\lib\model
+
+10112014
+Use the product of prob and titres array to calculate likelihood. Becomes faster.
+
+05112014
+Succesfully incorporating R compartment.
+add Tga = [4.3 3.3 3.3 3.3] in matlab and java package
+
+04112014
+Design a function to plot the distribution of newly infected individual.
+My hypothesis is that current age group1, most of infected are from naive.
+Antibody dependent boosting rate.
+Define a new function in java which contains R individuals.
+%ydot = meser.getStatesDeriv();
+ydot = meser.getStatesSIRSDeriv();
+retrieve_histogram->
+gen_strain_titres->
+titremat(i,l) = titremat(i,l) + y(i,pars.arrSlu(a,l,m,n)) +  "y(i,pars.arrRlu(a,l,m,n))";
+
+also check gen_strain_titres.m 
+
+02112014
+change pa.maxi from 9 to 10.
+Plot proportion changes of accumulated incidences of different age groups as K = 1, 2 and 3.
+main/plot/plot_histogram_hk 
+Histogram -> plot T2 not T3 anymore. T3 has 2nd wave, hard to interpret now!
+
+DefineLastSamlingday
+Otherwise sampling too many data
+ Yt = Yt(find(sampletime < SamplingLastDay));
+
+01112014
+change generation time to be 2.9 days
+change first case date 11/06/2009
+change par.maxi = 8. Lots of functions depend on this parameter:
+getNegLLHAge
+estimatelikelihood:
+	 if pa.mini == 0
+           LLH = calculateLogLikelihood(obs_prob,obs+1); %change to inline function?? 24 Jul 2014
+
+make_ics_fromtitres_byage:
+	if pars.mint == 0
+          data_bar = accumarray(Abl(find(age>=pars.ages(a,1) & age<pars.ages(a,2)))+1,1);
+
+getNegLLHAgejava:
+	Abl(find(Abl>par.maxt)) = par.maxt; %substitute Ab level >8 by 8;set max antibody level=8
+
+getNegLLHAge:
+	Abl(find(Abl>par.maxt)) = par.maxt; %substitute Ab level >8 by 8;set max antibody level=8, initial titres = 0
+
+cal_NGM_bybeta(beta,Ab,pars):
+ 	Abl(find(Abl>pars.maxt)) = pars.maxt;
+
+bugs for calculating R0:
+getMOF_byS( pars,y )
+cont = [pars.ContFrac1, pars.ContFrac2, pars.ContFrac3, pars.ContFrac4];
+No need to time cont(a) when calculate this matFOI_S becase matM is alread updatd by cont.
+matFOI_byS(X,a,b,i,j,k) = beta*matM(a,b)*cont(a)*arrf(b,i,j,k);
+
+Still need to check calR0_bypar(theta_beta,par). Looks like Rt is on for K=3.
+Make sure which sampling time we are using.
+
+31102014
+#Check result. not very good.
+#change make_ics_fromtitres_byage:
+put pop = [16.42 30.29 39.4 13.2]*pars.N into parameter
+
+#desity dependent simulation. Besure the seed should be divided by totalN.
+
+#change InitParameters:
+pa.ages = [0 18; 19 39;...] -> [0 19; 20 39;...] check demographic ratio? 
+
+#pass time_obs to estimatelikelihood
+Because now titres starts from 0, I have to change calculateLogLikelihood.
+
+#need to analyze multiple yt for the same day then I can derive factor for multinomial.
+
+%%plot the dynamics (not done)
+
+#change 
+Yout = retrieve_histogram(yfinal, pars, 1, 1, agegroup);
+Yini = retrieve_histogram(yini, pars, 1, 1, agegroup);
+check line27 in plot_dynamics_bypar
+
+30102014
+change getNegLLHAgejava	estimate Likelihood by exact time
+change main_produce_bytime	
+change make_ics_naive -> save TitresTableTotal
+
+
+
+release islt-1.0
+sample model output and get likelihood of observed data:
+1. get observed data sampling date
+2. produce model output at each sampling times
+3. calculate likelihood
+4. sum all the calculate likelihood
+####Beaware
+####Previously Antibody titres stored in titres.mat are from 1-9. Now I change to 0-8 to be consistent.
+####However isl3.3 still uses titres from 1-9.
+
+
+check estimatelikelihood.m
+
+
+-----------release 3.3--2x/10/2014-----------
+make_M
+initialModel
+
+
+
+-----------release 3.2--09/10/2014-----------
+Remove unnecessary files
+change produce_antibody_titres -> extract_antibody_titres
+
+
+
+-----------release 3.1--../../2014-----------
+Add new parameter for age contact matrix
+
+-----------release 3.0--23/09/2014-----------
+20140923
+optimization package
+run xopt = main_findmin_seronoage_java
+Beta = 0.3650
+AbB_1 = 5.7225
+AbB_2 = 5.6476
+AbB_3 = 4.4021
+AbB_4 = 4.8779
+AbB = [AbB_1 AbB_2 AbB_3 AbB_4]
+immune_alpha = 0;
+plot_dynamics_byage(Beta,AbB,immune_alpha, '0')
+
+20140922 multinomial distributino in get_titres_prob doesn't need to be normalized but should include factorial term.  
+20140922 cal_NGM, should read boosting rate (actually don't need to read boosting rate)
+20140921 Modify function [ multi_p multi_p_byage] = get_titres_prob( y, pars, times, sampletime )
+Don't normalize the probability of titres for each age (multi_p_byage).
+20140913 create genBoostingRate as a subfunction
+
+
+-----------release 2.1--14/07/2014-----------
+20140722
+change the visualization of serological dynamics.
+
+
+20140715 
+make_ics_fromtitres_byage
+%determine the sero prevalence, make sure the number of initial susceptible are correct.
+
+
+20140714 modify make_ics_fromtitres to make_ics_fromtitres_byage
+pass age to the function.
+
+modify this code: make_ics_fromtitres_byage
+make sure the following two steps.
+%determine the sero prevalence
+%add infectous seeds
+
+-----------release 2.0--02/07/2014-----------
+20140707
+produce likelihood_2params_20140707.mat in folder 20140703 for single boosting parameter.
+The overall shape is better but the max likelihood becomes slightly lower.
+
+
+20140706
+[multi_p multi_p_byage] = get_titres_prob
+should use multi_p_byage
+I should return both with age groups and without age groups.
+
+20140704
+Change main_estimatelikelihood_hk. Calculate likelihood by age each time.
+Working on ln46-47.
+setParameters 
+InitParameters pa.ages = [0 6; 6 20; 20 65; 65 100];
+Still debugging. Check ln24 from estimatelikelihood(pa,abl_obs,abl_ini)
+
+20140703
+Check main_producetitres_hk. Need to include age information into Antibody titres observed data. Now it saves both Abl and age om Antibody structure.
+
+20140702
+Put optim package into lib folder.
+add new function get_popweights_4_hk_2013 into make_ics_fromtitres.m. Beaware whether I need to add this function in make_ics.m and make_ics_naive.m.
+
+
+To do:
+1. Put optim package into main folder.
+2. Check whether max likelihood will be better than previous model.
+3. Use HK population data. Redo likelihood estimation. 
+4. Incorporate age structure in likelihood calculation. Calculate likelihood for single immune boosting.
+5. Incorporate age dependent immune boosting rates. Calculate likelihood.
+
+
+-----------release 1.6--27/06/2014-----------
+
+(1)
+Plot_dynamics by age group.
+
+(2)
+Line40-41 in calculate_R0.m
+
+%2)initial condition from previous season
+[yini age_arr] = make_ics_fromtitres( pars, pars.arrSlu, pars.arrIlu, pars.arrCIlu, Antibody(k-1).Abl);
+
+Should change k-1 -> 1 because in the main function, I use first collection sampling time as initial condition. 
+Then it would give correct beta-R0 calculation.
+
+isl-1.5
+
+20140527
+update age mixing matrix again. use the correct row and column. rerun NGM calculating for R0.
+when beta is 0.96, something is going wrong for R0, too low. ignore this first but keep in mind.
+
+20140424
+Update 
+make_g_simple with poisson distribution with cutoff
+make_h_simple keep same or linearly decrease
+result: looks like disease dynamics for plot_dynamics( 1.25, 4, 0 ) is fine
+
+
+20140423
+To do:
+1. After meeting with Steven, use contact data from China and try both naive poisson and the semi-mechanistic model for boosting to
+measure likelihood.
+2. Plot a 2D map to show boosting matrix.
+
+20140414
+Chech age structures in getMOF
+plot_line.m set susceptible to be titres <1:40
+            set recovered to be titres >= 1:40
+
+
+-----------release 1.3-----------
+20140402
+to do:
+remove all the functions (not main not plot) to lib folder.
+
+20140401
+to do:
+In titres.mat, Antibody.sampleize is wrong. Need to store ID in Antibody.Abl. (done)
+
+20140326
+Done: make a deterministic version of plot_infecteds_distribution_deter.m.
+
+20140321
+to do:
+Try to use a fix time point. Days are T3-T2 ~365d and turn off the immune waning rate now.
+Make sure the sample size and sampling time are correctly stored.
+
+20140320
+to do:
+Generate total_infecteds in plot_line.m and determine the sample_time when total_infecteds is lower than the threshold. (d)
+For calculating likelihood, also need to determine the sample_time.
+
+did: 
+Modify make_g_simple() and make_gtable_simple() If the target boosting level is larger than max level, used max level.
+Modify main_dynamics: use setParameters to change the parameters values. pars.R0 = 2.3-> pars = setParameters(pars,'R0',2.3);
+Modify main_dynamics: to determine the sample_time based on the threshold (d).
+Change the range for simulation instimatelikelihood_hk from 1 to 365*3.
+
+20140319
+did:
+Modify estimatelikelihood_hk.m. Add LLH_Map object to show Meshgrid later for R0 and Antibody Boosting. Save output to
+20140317/herdimmunity_hk/likelihood_2params.mat
+
+
+
+20140318
+to do:
+a. Sample size in Antibody is 1. Should be the total number of samples.
+b. Read initial condition from titres.mat
+c. Create a function to update the parameter values. Now work on antibody boosting. Make sure what will happen if boosting larger than 4.
+
+did:
+Create the function make_ics_fromtitres.m. Setup the initial using the previous antibody titres levels. (b)
+Create the funciton estimatelikelihood_hk.m. Update R0 and AbB in this funciton. 
+ 

@@ -1,0 +1,14 @@
+> setwd("E:/working/Projects.IC/Projects/isl/mat/Misltr/isltr-2.1/out/m3_2/ph1n1/20150307")
+> ps <- read.csv('mcmc_posterior.csv');
+> ess <- effectiveSize(ps);
+Error: could not find function "effectiveSize"
+> library('coda')
+Loading required package: lattice
+Warning message:
+package ‘coda’ was built under R version 3.0.3 
+> ess <- effectiveSize(ps);
+> ess
+    X0.06013      X6.2769      X4.7791      X3.5937      X5.1958      X1.3492      X2.0163 
+   637.76815    818.52758    340.88151    519.46289    148.46564    362.22152     76.34539 
+     X1.3635      X2.7202       X.1128 
+   410.20830    102.03935 100728.75630 

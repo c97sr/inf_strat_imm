@@ -1,0 +1,12 @@
+For figure1
+meanKdays = [101.74, 234.85]
+datenum('21/12/2009','dd/mm/yyyy') - datenum('01/01/2009','dd/mm/yyyy')
+
+
+formatIn = 'dd/mm/yyyy';
+SDate = '01/05/2009';
+numday_T1 = datenum('11/10/2009',formatIn)-datenum(SDate,formatIn)
+
+[X,Y] = meshgrid(0.8:0.05:2,1:4)
+surf(X',Y',Output(4).LLH_Map)
+
